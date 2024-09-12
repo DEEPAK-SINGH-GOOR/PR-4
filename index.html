@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Book Store</title>
+    <style>
+        #books {
+            display: flex;
+            flex-wrap: wrap;
+        }
+        .book {
+            margin: 10px;
+            text-align: center;
+        }
+        .book img {
+            max-width: 150px;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Book Store</h1>
+    <div id="books"></div>
+
+    <script>
+        const renderBooks = (books) => {
+            const container = document.getElementById('books');
+            container.innerHTML = '';
+
+            books.map((book) => {
+                const bookDiv = document.createElement('div');
+                bookDiv.className = 'book';
+
+                const title = document.createElement('h2');
+                title.textContent = book.title;
+
+                const img = document.createElement('img');
+                img.src = book.imageUrl || 'default-image-url.jpg';
+                img.alt = book.title;
+
+                bookDiv.append(title, img);
+                container.appendChild(bookDiv);
+            });
+        };
+
+        const fetchBooks = async () => {
+            const response = await fetch('http://localhost:8090/api/books');
+            const books = await response.json();
+            renderBooks(books);
+        };
+
+        fetchBooks();
+    </script>
+</body>
+</html>
